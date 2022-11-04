@@ -13,12 +13,16 @@ class colours:
 total = 0
 passed = 0
 start_time = 0
+report_failure_reason = False
 
 
 def runTests(*tests):
-    global total, passed, start_time
+    global total, passed, start_time, report_failure_reason
     total = 0
     passed = 0
+    if len(argv) > 1:
+        if argv[1] == str(1):
+            report_failure_reason = True
     start_time = time()
     for test in tests:
         print(colours.HEADER + test.__name__ + colours.ENDC)
@@ -27,7 +31,7 @@ def runTests(*tests):
 
 
 def test(name, correct_result="NOT IMPLEMENTED", function=lambda x: x, *args, **kwargs):
-    global total, passed
+    global total, passed, report_failure_reason
     total = total + 1
 
     if (correct_result == "NOT IMPLEMENTED"):
@@ -46,18 +50,20 @@ def test(name, correct_result="NOT IMPLEMENTED", function=lambda x: x, *args, **
 
     test_run_time = round(time() - test_start_time, 4)
     if (correct_result == actual_result):
-        print(f'{(colours.PASS + "Passed" + colours.ENDC):>10}', end=" ")
+        print(f'{(colours.PASS + "PASSED" + colours.ENDC):>10}', end=" ")
         print(test_run_time, "s")
         passed = passed + 1
     elif (type(correct_result) == Exception):
-        print(f'{(colours.FAIL + "Failed" + colours.ENDC):>10}', end=" ")
+        print(f'{(colours.FAIL + "FAILED" + colours.ENDC):>10}', end=" ")
         print(test_run_time, "s")
-        print(actual_result)
+        if report_failure_reason:
+            print(actual_result)
         print("")
     else:
-        print(f'{(colours.FAIL + "Failed" + colours.ENDC):>10}', end=" ")
+        print(f'{(colours.FAIL + "FAILED" + colours.ENDC):>10}', end=" ")
         print(test_run_time, "s")
-        print("Expected\n", correct_result, "\ngot\n", actual_result)
+        if report_failure_reason:
+            print("Expected\n", correct_result, "\ngot\n", actual_result)
 
 
 def printResult():
