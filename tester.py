@@ -14,7 +14,7 @@ passed = 0
 start_time = 0
 
 
-def run(*tests):
+def runTests(*tests):
     global total, passed, start_time
     total = 0
     passed = 0
@@ -25,18 +25,18 @@ def run(*tests):
     printResult()
 
 
-def assertEqual(name, correct_result, function=lambda x: x, *args):
+def assertEqual(name, correct_result, function=lambda x: x, *args, **kwargs):
     global total, passed
     total = total + 1
     testname = "Test " + str(total) + ": " + str(name)
     print(f"{testname:<50}", sep="", end=" ")
-    actual_result = function(*args)
+    actual_result = function(*args, **kwargs)
     if (correct_result == actual_result):
         print(f'{(colours.PASS + "Passed" + colours.ENDC):>10}')
         passed = passed + 1
     else:
-        print(colours.FAIL + "Failed" + colours.ENDC)
-        print("Expected", correct_result, "got", actual_result)
+        print(f'{(colours.FAIL + "Failed" + colours.ENDC):>10}')
+        print("Expected\n", correct_result, "\ngot\n", actual_result)
 
 
 def printResult():
