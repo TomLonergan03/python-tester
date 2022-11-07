@@ -32,8 +32,8 @@ def runTests(*tests):
                                              .replace("]", "")
                                              .split(',')]
                 except:
-                    print("Unrecognised arguement")
-                    print("Accepted arguements:")
+                    print("Unrecognised argument")
+                    print("Accepted arguments:")
                     print("all - output all failure strings")
                     print("[x,y,z] - outputs failures for testgroup x,y,z")
                     quit()

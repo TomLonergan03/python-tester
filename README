@@ -1,0 +1,30 @@
+Simple python unit testing tool.
+
+A simple test file to test function:
+
+add(x,y):
+    return x + y
+
+looks like this:
+
+from tester import test, runTests
+
+testAdd():
+    test("Add numbers", 8, add, 3, 5)
+
+runTests(testAdd)
+
+There are 3 components to the test, the test runner (runTest), the test group (testAdd), and the individual tests (test("Add numbers", args))
+
+The test runner will run all passed comma separated test groups.
+
+The test group consists of a series of tests that are related to each other in some way, eg testing different cases of the same function
+
+Each test takes a string for the name, the expected result, the function to be tested, and a number of args and kwargs to be passed to the function being tested
+
+When executing a test file, the command line arguments is either blank, in which case there is no detail beyond what tests pass and fail, 
+is a comma separated list of test group numbers to return expected and function returned values should a test fail, or is "all",
+in which case all failed tests will return expected and function returned values.
+
+eg, if the above defined test is in file add_tests.py then run:
+python3 add_tests.py 1 to see the results of the first test group (only in case of failures)
