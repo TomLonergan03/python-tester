@@ -17,7 +17,7 @@ report_failure_module = []
 report_test_failure = False
 
 
-def runTests(*tests):
+def runTests(*tests, **kwargs):
     global total, passed, report_all_failures, report_failure_module, report_test_failure
     total = 0
     passed = 0
@@ -41,6 +41,8 @@ def runTests(*tests):
     start_time = time()
     i = 0
     for test in tests:
+        if kwargs.__contains__("setup"):
+            kwargs["setup"]()
         if report_all_failures:
             report_test_failure = True
         elif (report_failure_module.__contains__(i)):
@@ -70,7 +72,7 @@ def test(name, correct_result="NOT IMPLEMENTED", function=lambda x: x, *args, **
     try:
         actual_result = function(*args, **kwargs)
     except Exception as e:
-        actual_result = e
+        actual_result = colours.FAIL + "EXCEPTION: " + colours.ENDC + str(e)
 
     test_run_time = round(time() - test_start_time, 4)
     if (correct_result == actual_result):
