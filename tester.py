@@ -13,12 +13,18 @@ class colours:
 total = 0
 passed = 0
 report_all_failures = False
-report_failure_module = []
+report_failure_in_module = []
 report_test_failure = False
 
 
 def runTests(*tests, **kwargs):
-    global total, passed, report_all_failures, report_failure_module, report_test_failure
+    """
+    Run a list of tests
+        Parameters:
+            tests (list): List of tests to run
+            kwargs (dict): setup - function to run before each test
+    """
+    global total, passed, report_all_failures, report_failure_in_module, report_test_failure
     total = 0
     passed = 0
     if len(argv) > 1:
@@ -27,10 +33,10 @@ def runTests(*tests, **kwargs):
                 report_all_failures = True
             else:
                 try:
-                    report_failure_module = [int(x) for x in argv[1]
-                                             .replace("[", "")
-                                             .replace("]", "")
-                                             .split(',')]
+                    report_failure_in_module = [int(x) for x in argv[1]
+                                                .replace("[", "")
+                                                .replace("]", "")
+                                                .split(',')]
                 except:
                     print("Unrecognised argument")
                     print("Accepted arguments:")
@@ -45,7 +51,7 @@ def runTests(*tests, **kwargs):
             kwargs["setup"]()
         if report_all_failures:
             report_test_failure = True
-        elif (report_failure_module.__contains__(i)):
+        elif (report_failure_in_module.__contains__(i)):
             report_test_failure = True
         else:
             report_test_failure = False
@@ -57,6 +63,15 @@ def runTests(*tests, **kwargs):
 
 
 def test(name, correct_result="NOT IMPLEMENTED", function=lambda x: x, *args, **kwargs):
+    """
+    Run a single test
+        Parameters:
+            name (str): Name of the test to be displayed
+            correct_result (any): The correct result
+            function (function): The function to test
+            args: arguments to pass to the function
+            kwargs: keyword arguments to pass to the function
+    """
     global total, passed, report_all_failures
     total = total + 1
 
